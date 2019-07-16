@@ -2,8 +2,6 @@
 
 Takes two values and adds them together. Sets the timestamp to the latest of both values.
 
-Usecase: 
-
 ## Inputs
 
 * value1 (float): Reading from device 1
