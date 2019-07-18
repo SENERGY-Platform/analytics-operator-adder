@@ -50,7 +50,7 @@ public class Adder implements OperatorInterface {
             System.err.println("Could not parse timestamp1, assume 0");
         }
         try{
-            long2 = DateParser.parseDateMills(timestamp1);
+            long2 = DateParser.parseDateMills(timestamp2);
         } catch (DateTimeParseException e) {
             System.err.println("Could not parse timestamp2, assume 0");
         }
