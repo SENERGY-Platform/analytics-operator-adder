@@ -39,7 +39,7 @@ public class Adder implements OperatorInterface {
 
         if(debug){
             System.out.println("Got values:\n\tvalue1: " + value1 + "\n\ttimestamp1: " + timestamp1
-                    + "\n\tvalue2: " + value2 + "\n\ttimestamp2" + timestamp2);
+                    + "\n\tvalue2: " + value2 + "\n\ttimestamp2: " + timestamp2);
         }
 
         long long1 = 0, long2 = 0;
