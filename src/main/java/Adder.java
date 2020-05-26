@@ -14,56 +14,36 @@
  * limitations under the License.
  */
 
-
-import org.infai.seits.sepl.operators.Helper;
-import org.infai.seits.sepl.operators.Message;
-import org.infai.seits.sepl.operators.OperatorInterface;
-
-import java.time.format.DateTimeParseException;
+import org.infai.ses.senergy.operators.Message;
+import org.infai.ses.senergy.operators.OperatorInterface;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Adder implements OperatorInterface {
 
-    private boolean debug;
+    private Map<String, Double> map;
 
     public Adder(){
-        debug = Helper.getEnv("DEBUG", "false").equalsIgnoreCase("true");
+        map = new HashMap<>();
     }
 
     @Override
     public void run(Message message) {
-        double value1 = message.getInput("value1").getValue();
-        double value2 = message.getInput("value2").getValue();
-        String timestamp1 = message.getInput("timestamp1").getString();
-        String timestamp2 = message.getInput("timestamp2").getString();
+        double value = message.getInput("value").getValue();
+        String timestamp = message.getInput("timestamp").getString();
 
-        if(debug){
-            System.out.println("Got values:\n\tvalue1: " + value1 + "\n\ttimestamp1: " + timestamp1
-                    + "\n\tvalue2: " + value2 + "\n\ttimestamp2: " + timestamp2);
-        }
+        map.put(message.getMessageEntityId(), value);
 
-        long long1 = 0, long2 = 0;
+        double sum = map.values().stream().mapToDouble(v -> v).sum();
 
-        try{
-            long1 = DateParser.parseDateMills(timestamp1);
-        } catch (DateTimeParseException e) {
-            System.err.println("Could not parse timestamp1, assume 0");
-        }
-        try{
-            long2 = DateParser.parseDateMills(timestamp2);
-        } catch (DateTimeParseException e) {
-            System.err.println("Could not parse timestamp2, assume 0");
-        }
-
-        message.output("timestamp", long1 > long2 ? timestamp1 : timestamp2); //Outputs latest timestamp
-        message.output("value", value1 + value2);
+        message.output("lastTimestamp", timestamp);
+        message.output("sum", sum);
     }
 
     @Override
-    public void config(Message message) {
-        message.addInput("value1");
-        message.addInput("value2");
-        message.addInput("timestamp1");
-        message.addInput("timestamp2");
+    public void configMessage(Message message) {
+        message.addInput("value");
+        message.addInput("timestamp");
     }
 }

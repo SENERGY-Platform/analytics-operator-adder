@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-import org.infai.seits.sepl.operators.Stream;
-
-import java.io.IOException;
+import org.infai.ses.senergy.operators.Stream;
 
 public class Operator {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Stream stream  = new Stream();
         stream.start(new Adder());
     }

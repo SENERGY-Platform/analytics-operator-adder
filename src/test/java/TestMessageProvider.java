@@ -1,6 +1,7 @@
-import org.infai.seits.sepl.operators.Builder;
-import org.infai.seits.sepl.operators.Message;
-import org.json.JSONArray;
+import org.infai.ses.senergy.operators.Builder;
+import org.infai.ses.senergy.operators.Config;
+import org.infai.ses.senergy.operators.Message;
+import org.infai.ses.senergy.utils.ConfigProvider;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -15,32 +16,41 @@ public class TestMessageProvider {
         BufferedReader br = new BufferedReader(new FileReader("src/test/resources/sample-data-small.json"));
         Builder builder = new Builder("1", "1");
         List<Message> messageSet = new ArrayList<>();
-        JSONObject config = getConfig();
+        Config config = new Config(getConfig());
+        ConfigProvider.setConfig(config);
+
+
         String line;
         Message m;
         JSONObject jsonObjectRead, jsonObject;
         while ((line = br.readLine()) != null) {
             jsonObjectRead = new JSONObject(line);
-            jsonObject = new JSONObject().put("device_id", "1").put("value", new JSONObject().put("reading", jsonObjectRead));
+            jsonObject = new JSONObject().put("device_id", messageSet.size() % 2 == 0 ? "1": "2").put("value", new JSONObject().put("reading", jsonObjectRead));
             m = new Message(builder.formatMessage(jsonObject.toString()));
-            m.setConfig(config.toString());
             messageSet.add(m);
         }
         return messageSet;
     }
 
-    public static JSONObject getConfig() {
-        JSONObject config = new JSONObject().put("inputTopics",new JSONArray().put(new JSONObject().put("Name", "test")
-                .put("FilterType", "DeviceId")
-                .put("FilterValue", "1")
-                .put("Mappings", new JSONArray()
-                        .put(new JSONObject().put("Source", "value.reading.value1").put("Dest", "value1"))
-                        .put(new JSONObject().put("Source", "value.reading.timestamp1").put("Dest", "timestamp1"))
-                        .put(new JSONObject().put("Source", "value.reading.value2").put("Dest", "value2"))
-                        .put(new JSONObject().put("Source", "value.reading.timestamp2").put("Dest", "timestamp2"))
-                        .put(new JSONObject().put("Source", "value.reading.value").put("Dest", "value"))
-                        .put(new JSONObject().put("Source", "value.reading.timestamp").put("Dest", "timestamp"))
-                )));
-        return config;
+    public static String getConfig() {
+        return "{\n" +
+                "  \"inputTopics\": [\n" +
+                "    {\n" +
+                "      \"name\": \"iot_bc59400c-405c-4c84-9862-a791daa82b60\",\n" +
+                "      \"filterType\": \"DeviceId\",\n" +
+                "      \"filterValue\": \"1,2\",\n" +
+                "      \"mappings\": [\n" +
+                "        {\n" +
+                "          \"dest\": \"value\",\n" +
+                "          \"source\": \"value.reading.value\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"dest\": \"timestamp\",\n" +
+                "          \"source\": \"value.reading.timestamp\"\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
     }
 }
