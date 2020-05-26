@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package org.infai.ses.senergy.operators.adder;
+
 import org.infai.ses.senergy.operators.Stream;
 
 public class Operator {

@@ -1,4 +1,5 @@
 import org.infai.ses.senergy.operators.Message;
+import org.infai.ses.senergy.operators.adder.Adder;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.List;

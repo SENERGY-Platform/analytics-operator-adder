@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package org.infai.ses.senergy.operators.adder;
+
 import org.infai.ses.senergy.operators.Message;
 import org.infai.ses.senergy.operators.OperatorInterface;
 import java.util.HashMap;
