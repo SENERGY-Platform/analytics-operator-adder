@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.infai.ses.senergy.operators.adder;
+package org.infai.ses.senergy.operators.adder3;
 
 import org.infai.ses.senergy.operators.Message;
 import org.infai.ses.senergy.operators.OperatorInterface;
@@ -32,7 +32,11 @@ public class Adder implements OperatorInterface {
 
     @Override
     public void run(Message message) {
-        double value = message.getInput("value").getValue();
+        double value1 = message.getInput("value1").getValue();
+        double value2 = message.getInput("value2").getValue();
+        double value3 = message.getInput("value3").getValue();
+        double value = value1 + value2 + value3;
+
         String timestamp = message.getInput("timestamp").getString();
 
         map.put(message.getMessageEntityId(), value);
@@ -45,7 +49,9 @@ public class Adder implements OperatorInterface {
 
     @Override
     public void configMessage(Message message) {
-        message.addInput("value");
+        message.addInput("value1");
+        message.addInput("value2");
+        message.addInput("value3");
         message.addInput("timestamp");
     }
 }

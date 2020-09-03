@@ -17,7 +17,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.infai.seits.sepl.operators</groupId>
-    <artifactId>operator-adder</artifactId>
+    <artifactId>operator-adder3</artifactId>
     <packaging>jar</packaging>
     <version>0.1</version>
 
@@ -39,7 +39,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>org.infai.ses.senergy.operators.adder.Operator</mainClass>
+                            <mainClass>org.infai.ses.senergy.operators.adder3.Operator</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

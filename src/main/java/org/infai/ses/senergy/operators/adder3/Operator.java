@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.infai.ses.senergy.operators.adder;
+package org.infai.ses.senergy.operators.adder3;
 
 import org.infai.ses.senergy.operators.Stream;
 

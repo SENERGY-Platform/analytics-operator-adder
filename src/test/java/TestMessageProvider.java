@@ -41,8 +41,16 @@ public class TestMessageProvider {
                 "      \"filterValue\": \"1,2\",\n" +
                 "      \"mappings\": [\n" +
                 "        {\n" +
-                "          \"dest\": \"value\",\n" +
-                "          \"source\": \"value.reading.value\"\n" +
+                "          \"dest\": \"value1\",\n" +
+                "          \"source\": \"value.reading.value1\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"dest\": \"value2\",\n" +
+                "          \"source\": \"value.reading.value2\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"dest\": \"value3\",\n" +
+                "          \"source\": \"value.reading.value3\"\n" +
                 "        },\n" +
                 "        {\n" +
                 "          \"dest\": \"timestamp\",\n" +

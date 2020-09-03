@@ -4,5 +4,5 @@ WORKDIR /usr/src/app
 RUN mvn clean install
 
 FROM openjdk:11-jre-slim
-COPY --from=builder /usr/src/app/target/operator-adder-jar-with-dependencies.jar /opt/operator-adder-jar-with-dependencies.jar
-CMD ["java","-jar","/opt/operator-adder-jar-with-dependencies.jar"]
+COPY --from=builder /usr/src/app/target/operator-adder3-jar-with-dependencies.jar /opt/operator-adder3-jar-with-dependencies.jar
+CMD ["java","-jar","/opt/operator-adder3-jar-with-dependencies.jar"]
