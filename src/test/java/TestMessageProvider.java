@@ -1,6 +1,6 @@
-import org.infai.ses.senergy.operators.Builder;
 import org.infai.ses.senergy.operators.Config;
 import org.infai.ses.senergy.operators.Message;
+import org.infai.ses.senergy.operators.TableBuilder;
 import org.infai.ses.senergy.utils.ConfigProvider;
 import org.json.JSONObject;
 
@@ -14,12 +14,10 @@ public class TestMessageProvider {
 
     public static List<Message> getTestMesssagesSet() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader("src/test/resources/sample-data-small.json"));
-        Builder builder = new Builder("1", "1");
+        TableBuilder builder = new TableBuilder("1", "1");
         List<Message> messageSet = new ArrayList<>();
         Config config = new Config(getConfig());
         ConfigProvider.setConfig(config);
-
-
         String line;
         Message m;
         JSONObject jsonObjectRead, jsonObject;
