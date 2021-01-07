@@ -16,6 +16,8 @@
 
 package org.infai.ses.senergy.operators.adder;
 
+import org.infai.ses.senergy.exceptions.NoValueException;
+import org.infai.ses.senergy.operators.Input;
 import org.infai.ses.senergy.operators.Message;
 import org.infai.ses.senergy.operators.OperatorInterface;
 import java.util.HashMap;
@@ -32,10 +34,17 @@ public class Adder implements OperatorInterface {
 
     @Override
     public void run(Message message) {
-        double value = message.getInput("value").getValue();
+        double value;
+        Input valueInput = message.getInput("value");
+        try {
+            value = valueInput.getValue();
+        } catch (NoValueException e) {
+            e.printStackTrace();
+            return;
+        }
         String timestamp = message.getInput("timestamp").getString();
 
-        map.put(message.getMessageEntityId(), value);
+        map.put(valueInput.getFilterId(), value);
 
         double sum = map.values().stream().mapToDouble(v -> v).sum();
 
@@ -44,8 +53,9 @@ public class Adder implements OperatorInterface {
     }
 
     @Override
-    public void configMessage(Message message) {
+    public Message configMessage(Message message) {
         message.addInput("value");
         message.addInput("timestamp");
+        return message;
     }
 }
