@@ -1,0 +1,39 @@
+{
+  "config": {
+    "input": "true",
+    "inputs": "6"
+  },
+  "inputTopics": [
+    {
+      "Name": "test",
+      "FilterType": "DeviceId",
+      "FilterValue": "1,2",
+      "Mappings": [
+        {
+          "Dest": "value1",
+          "Source": "value.reading.value1"
+        },
+        {
+          "Dest": "value2",
+          "Source": "value.reading.value2"
+        },
+        {
+          "Dest": "value3",
+          "Source": "value.reading.value3"
+        },
+        {
+          "Dest": "timestamp",
+          "Source": "value.reading.timestamp"
+        },
+        {
+          "Dest": "expectValue",
+          "Source": "value.reading.expectValue"
+        },
+        {
+          "Dest": "expectTS",
+          "Source": "value.reading.expectTS"
+        }
+      ]
+    }
+  ]
+}
