@@ -1,4 +1,4 @@
-name: 'PROD Docker Image'
+name: 'Triple Docker Image'
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/386,linux/amd64
+          platforms: linux/amd64
           push: true
           tags: |
             smartenergyplatform/analytics-operator-adder:3
