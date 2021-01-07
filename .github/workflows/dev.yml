@@ -3,7 +3,7 @@ name: 'Triple Docker Image'
 on:
   push:
     branches:
-      - triple
+      - dev
 jobs:
   multi:
     runs-on: ubuntu-latest

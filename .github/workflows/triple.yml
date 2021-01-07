@@ -3,7 +3,7 @@ name: 'PROD Docker Image'
 on:
   push:
     branches:
-      - master
+      - triple
 jobs:
   multi:
     runs-on: ubuntu-latest
