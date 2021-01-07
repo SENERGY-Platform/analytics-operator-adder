@@ -17,14 +17,14 @@
 package org.infai.ses.senergy.operators.adder3;
 
 import org.infai.ses.senergy.exceptions.NoValueException;
+import org.infai.ses.senergy.operators.BaseOperator;
 import org.infai.ses.senergy.operators.Input;
 import org.infai.ses.senergy.operators.Message;
-import org.infai.ses.senergy.operators.OperatorInterface;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class Adder implements OperatorInterface {
+public class Adder extends BaseOperator {
 
     private Map<String, Double> map;
 
