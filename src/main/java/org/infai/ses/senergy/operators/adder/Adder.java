@@ -19,7 +19,10 @@ package org.infai.ses.senergy.operators.adder;
 import org.infai.ses.senergy.exceptions.NoValueException;
 import org.infai.ses.senergy.operators.BaseOperator;
 import org.infai.ses.senergy.operators.FlexInput;
+import org.infai.ses.senergy.operators.Helper;
 import org.infai.ses.senergy.operators.Message;
+import org.infai.ses.senergy.utils.ConfigProvider;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,9 +30,11 @@ import java.util.Map;
 public class Adder extends BaseOperator {
 
     private Map<String, Double> map;
+    private boolean debug;
 
     public Adder(){
         map = new HashMap<>();
+        debug = Boolean.parseBoolean(Helper.getEnv("DEBUG", "false"));
     }
 
     @Override
@@ -53,6 +58,12 @@ public class Adder extends BaseOperator {
         map.put(valueInput.getCurrentFilterId(), value);
 
         double sum = map.values().stream().mapToDouble(v -> v).sum();
+
+        if (debug) {
+            for (Map.Entry<String, Double> entr: map.entrySet()) {
+                System.out.println(entr.getKey() + ": " + entr.getValue());
+            }
+        }
 
         message.output("lastTimestamp", timestamp);
         message.output("sum", sum);
