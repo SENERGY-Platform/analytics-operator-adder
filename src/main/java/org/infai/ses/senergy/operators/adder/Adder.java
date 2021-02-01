@@ -18,7 +18,7 @@ package org.infai.ses.senergy.operators.adder;
 
 import org.infai.ses.senergy.exceptions.NoValueException;
 import org.infai.ses.senergy.operators.BaseOperator;
-import org.infai.ses.senergy.operators.Input;
+import org.infai.ses.senergy.operators.FlexInput;
 import org.infai.ses.senergy.operators.Message;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,17 +34,23 @@ public class Adder extends BaseOperator {
 
     @Override
     public void run(Message message) {
-        double value;
-        Input valueInput = message.getInput("value");
+        Double value;
+        FlexInput valueInput = message.getFlexInput("value");
         try {
             value = valueInput.getValue();
         } catch (NoValueException e) {
             e.printStackTrace();
             return;
         }
-        String timestamp = message.getInput("timestamp").getString();
+        String timestamp;
+        try {
+            timestamp = message.getFlexInput("timestamp").getString();
+        } catch (NoValueException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        map.put(valueInput.getFilterId(), value);
+        map.put(valueInput.getCurrentFilterId(), value);
 
         double sum = map.values().stream().mapToDouble(v -> v).sum();
 
@@ -54,8 +60,8 @@ public class Adder extends BaseOperator {
 
     @Override
     public Message configMessage(Message message) {
-        message.addInput("value");
-        message.addInput("timestamp");
+        message.addFlexInput("value");
+        message.addFlexInput("timestamp");
         return message;
     }
 }
