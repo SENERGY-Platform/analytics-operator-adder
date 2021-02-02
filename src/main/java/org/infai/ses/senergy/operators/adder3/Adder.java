@@ -21,7 +21,6 @@ import org.infai.ses.senergy.operators.BaseOperator;
 import org.infai.ses.senergy.operators.FlexInput;
 import org.infai.ses.senergy.operators.Helper;
 import org.infai.ses.senergy.operators.Message;
-import org.infai.ses.senergy.utils.ConfigProvider;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,9 +39,9 @@ public class Adder extends BaseOperator {
     @Override
     public void run(Message message) {
         double value1, value2, value3;
-        Input valueInput1 = message.getInput("value1");
-        Input valueInput2 = message.getInput("value2");
-        Input valueInput3 = message.getInput("value3");
+        FlexInput valueInput1 = message.getFlexInput("value1");
+        FlexInput valueInput2 = message.getFlexInput("value2");
+        FlexInput valueInput3 = message.getFlexInput("value3");
         try {
             value1 = valueInput1.getValue();
             value2 = valueInput2.getValue();
@@ -52,9 +51,15 @@ public class Adder extends BaseOperator {
             return;
         }
         double value = value1 + value2 + value3;
-        String timestamp = message.getInput("timestamp").getString();
+        String timestamp;
+        try {
+            timestamp = message.getFlexInput("timestamp").getString();
+        } catch (NoValueException e) {
+            e.printStackTrace();
+            return;
+        }
 
-        map.put(valueInput.getCurrentFilterId(), value);
+        map.put(valueInput1.getCurrentFilterId(), value);
 
         double sum = map.values().stream().mapToDouble(v -> v).sum();
 
@@ -70,10 +75,10 @@ public class Adder extends BaseOperator {
 
     @Override
     public Message configMessage(Message message) {
-        message.addInput("value1");
-        message.addInput("value2");
-        message.addInput("value3");
-        message.addInput("timestamp");
+        message.addFlexInput("value1");
+        message.addFlexInput("value2");
+        message.addFlexInput("value3");
+        message.addFlexInput("timestamp");
         return message;
     }
 }
