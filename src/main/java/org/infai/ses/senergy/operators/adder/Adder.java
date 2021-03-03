@@ -41,6 +41,10 @@ public class Adder extends BaseOperator {
     public void run(Message message) {
         Double value;
         FlexInput valueInput = message.getFlexInput("value");
+        FlexInput timeInput  = message.getFlexInput("timestamp");
+        if (debug) {
+            System.out.println("value from " + valueInput.getCurrentFilterId() + ", time from " + timeInput.getCurrentFilterId());
+        }
         try {
             value = valueInput.getValue();
         } catch (NoValueException e) {
@@ -49,7 +53,7 @@ public class Adder extends BaseOperator {
         }
         String timestamp;
         try {
-            timestamp = message.getFlexInput("timestamp").getString();
+            timestamp = timeInput.getString();
         } catch (NoValueException e) {
             e.printStackTrace();
             return;
