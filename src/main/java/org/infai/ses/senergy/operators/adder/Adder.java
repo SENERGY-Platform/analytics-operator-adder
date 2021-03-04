@@ -21,10 +21,10 @@ import org.infai.ses.senergy.operators.BaseOperator;
 import org.infai.ses.senergy.operators.FlexInput;
 import org.infai.ses.senergy.operators.Helper;
 import org.infai.ses.senergy.operators.Message;
-import org.infai.ses.senergy.utils.ConfigProvider;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 
 public class Adder extends BaseOperator {
@@ -39,18 +39,8 @@ public class Adder extends BaseOperator {
 
     @Override
     public void run(Message message) {
-        Double value;
         FlexInput valueInput = message.getFlexInput("value");
         FlexInput timeInput  = message.getFlexInput("timestamp");
-        if (debug) {
-            System.out.println("value from " + valueInput.getCurrentFilterId() + ", time from " + timeInput.getCurrentFilterId());
-        }
-        try {
-            value = valueInput.getValue();
-        } catch (NoValueException e) {
-            e.printStackTrace();
-            return;
-        }
         String timestamp;
         try {
             timestamp = timeInput.getString();
@@ -58,8 +48,10 @@ public class Adder extends BaseOperator {
             e.printStackTrace();
             return;
         }
-
-        map.put(valueInput.getCurrentFilterId(), value);
+        Set<Map.Entry<String, Double>> entries = valueInput.getFilterIdValueMap(Double.class).entrySet();
+        for (Map.Entry<String, Double> entr: entries) {
+            map.put(entr.getKey(), entr.getValue());
+        }
 
         double sum = map.values().stream().mapToDouble(v -> v).sum();
 
