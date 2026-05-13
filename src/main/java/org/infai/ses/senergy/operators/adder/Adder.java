@@ -16,7 +16,6 @@
 
 package org.infai.ses.senergy.operators.adder;
 
-import org.infai.ses.senergy.exceptions.NoValueException;
 import org.infai.ses.senergy.operators.BaseOperator;
 import org.infai.ses.senergy.operators.FlexInput;
 import org.infai.ses.senergy.operators.Helper;
@@ -31,6 +30,7 @@ public class Adder extends BaseOperator {
 
     private Map<String, Double> map;
     private boolean debug;
+    private long highTs;
 
     public Adder(){
         map = new HashMap<>();
@@ -40,14 +40,7 @@ public class Adder extends BaseOperator {
     @Override
     public void run(Message message) {
         FlexInput valueInput = message.getFlexInput("value");
-        FlexInput timeInput  = message.getFlexInput("timestamp");
-        String timestamp;
-        try {
-            timestamp = timeInput.getString();
-        } catch (NoValueException e) {
-            e.printStackTrace();
-            return;
-        }
+        
         Set<Map.Entry<String, Double>> entries = valueInput.getFilterIdValueMap(Double.class).entrySet();
         for (Map.Entry<String, Double> entr: entries) {
             map.put(entr.getKey(), entr.getValue());
@@ -61,14 +54,17 @@ public class Adder extends BaseOperator {
             }
         }
 
-        message.output("lastTimestamp", timestamp);
+        long currentTs = message.getMessage().getKafkaTimestamp();
+        if (currentTs > highTs) {
+            highTs = currentTs;
+        }
+        message.getMessage().setKafkaTimestamp(highTs);
         message.output("sum", sum);
     }
 
     @Override
     public Message configMessage(Message message) {
         message.addFlexInput("value");
-        message.addFlexInput("timestamp");
         return message;
     }
 }

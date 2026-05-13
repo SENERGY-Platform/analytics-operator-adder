@@ -24,14 +24,17 @@ public class AdderTest {
         message.addInput("expectValue");
         message.addInput("expectTS");
         testOperator.configMessage(message);
+        int index = 0;
         for (Object msg : messages) {
             DeviceMessageModel deviceMessageModel = JSONHelper.getObjectFromJSONString(msg.toString(), DeviceMessageModel.class);
             assert deviceMessageModel != null;
             model.putMessage(topicName, Helper.deviceToInputMessageModel(deviceMessageModel, topicName));
+            model.setKafkaTimestamp(index);
             message.setMessage(model);
             testOperator.run(message);
             Assert.assertEquals(message.getInput("expectValue").getValue(), message.getMessage().getOutputMessage().getAnalytics().get("sum"));
-            Assert.assertEquals(message.getInput("expectTS").getString(), message.getMessage().getOutputMessage().getAnalytics().get("lastTimestamp"));
+            Assert.assertEquals(index, message.getMessage().getKafkaTimestamp());
+            index++;
         }
     }
 }
